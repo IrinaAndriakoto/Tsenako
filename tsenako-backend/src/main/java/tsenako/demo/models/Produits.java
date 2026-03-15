@@ -2,10 +2,14 @@ package tsenako.demo.models;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,14 +20,21 @@ public class Produits{
     private Long id;
     private String nom;
     private Double prix;
+    
+    @JsonIgnore
     private Date updatedAt;
 
+    @PrePersist
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date();
+    }
+
     public Produits(){}
-    public Produits(Long id, String nom, Double prix, Date updatedAt) {
+    public Produits(Long id, String nom, Double prix) {
         this.id = id;
         this.nom = nom;
         this.prix = prix;
-        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -52,9 +63,5 @@ public class Produits{
 
     public Date getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

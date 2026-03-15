@@ -1,9 +1,5 @@
 package tsenako.demo.models;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,31 +9,17 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "produits")
-public class Produits{
+@Table(name = "categories")
+public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @OneToMany
-    private Categorie categorie;
     private String nom;
-    private Double prix;    
-    
-    @JsonIgnore
-    private Date updatedAt;
 
-    @PrePersist
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = new Date();
-    }
-
-    public Produits(){}
-    public Produits(Long id, String nom, Double prix) {
+    public Categorie() {}
+    public Categorie(Long id, String nom) {
         this.id = id;
         this.nom = nom;
-        this.prix = prix;
     }
 
     public Long getId() {
@@ -54,17 +36,5 @@ public class Produits{
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public Double getPrix() {
-        return prix;
-    }
-
-    public void setPrix(Double prix) {
-        this.prix = prix;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
     }
 }

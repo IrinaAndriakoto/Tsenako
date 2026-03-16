@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -19,8 +21,10 @@ public class Produits{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "categorie_id", nullable = false)
     private Categorie categorie;
+    
     private String nom;
     private Double prix;    
     
@@ -36,6 +40,13 @@ public class Produits{
     public Produits(){}
     public Produits(Long id, String nom, Double prix) {
         this.id = id;
+        this.nom = nom;
+        this.prix = prix;
+    }
+
+    public Produits(Long id, Categorie categorie, String nom, Double prix) {
+        this.id = id;
+        this.categorie = categorie;
         this.nom = nom;
         this.prix = prix;
     }
@@ -66,5 +77,13 @@ public class Produits{
 
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
     }
 }
